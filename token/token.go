@@ -5,7 +5,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
-	"io/ioutil"
+	"os"
 	"sync"
 	"time"
 
@@ -30,17 +30,19 @@ var (
 // Token represents an Apple Provider Authentication Token (JSON Web Token).
 type Token struct {
 	sync.Mutex
-	AuthKey  *ecdsa.PrivateKey
-	KeyID    string
-	TeamID   string
-	IssuedAt int64
-	Bearer   string
+	AuthKeyBase64 string
+	AuthKey       *ecdsa.PrivateKey
+	KeyID         string
+	TeamID        string
+	IssuedAt      int64
+	Bearer        string
+	CacheFile     string
 }
 
 // AuthKeyFromFile loads a .p8 certificate from a local file and returns a
 // *ecdsa.PrivateKey.
 func AuthKeyFromFile(filename string) (*ecdsa.PrivateKey, error) {
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -69,8 +71,14 @@ func AuthKeyFromBytes(bytes []byte) (*ecdsa.PrivateKey, error) {
 func (t *Token) GenerateIfExpired() (bearer string) {
 	t.Lock()
 	defer t.Unlock()
+	if len(t.CacheFile) != 0 {
+		if _, err := os.Stat(t.CacheFile); err == nil {
+			t.ReadCacheFile()
+		}
+	}
 	if t.Expired() {
 		t.Generate()
+		t.UpdateCacheFile()
 	}
 	return t.Bearer
 }
@@ -83,7 +91,7 @@ func (t *Token) Expired() bool {
 // Generate creates a new token.
 func (t *Token) Generate() (bool, error) {
 	if t.AuthKey == nil {
-		return false, ErrAuthKeyNil
+		t.AuthKey, _ = AuthKeyFromBytes([]byte(t.AuthKeyBase64))
 	}
 	issuedAt := time.Now().Unix()
 	jwtToken := &jwt.Token{
