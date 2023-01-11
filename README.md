@@ -2,12 +2,12 @@
 
 APNS/2 is a go package designed for simple, flexible and fast Apple Push Notifications on iOS, OSX and Safari using the new HTTP/2 Push provider API.
 
-[![Build Status](https://github.com/sideshow/apns2/actions/workflows/tests.yml/badge.svg)](https://github.com/sideshow/apns2/actions/workflows/tests.yml) [![Coverage Status](https://coveralls.io/repos/sideshow/apns2/badge.svg?branch=master&service=github)](https://coveralls.io/github/sideshow/apns2?branch=master) [![GoDoc](https://godoc.org/github.com/sideshow/apns2?status.svg)](https://godoc.org/github.com/sideshow/apns2)
+[![Build Status](https://github.com/sorokinmax/apns2/actions/workflows/tests.yml/badge.svg)](https://github.com/sorokinmax/apns2/actions/workflows/tests.yml) [![Coverage Status](https://coveralls.io/repos/sorokinmax/apns2/badge.svg?branch=master&service=github)](https://coveralls.io/github/sorokinmax/apns2?branch=master) [![GoDoc](https://godoc.org/github.com/sorokinmax/apns2?status.svg)](https://godoc.org/github.com/sorokinmax/apns2)
 
 ## Features
 
 - Uses new Apple APNs HTTP/2 connection
-- Fast - See [notes on speed](https://github.com/sideshow/apns2/wiki/APNS-HTTP-2-Push-Speed)
+- Fast - See [notes on speed](https://github.com/sorokinmax/apns2/wiki/APNS-HTTP-2-Push-Speed)
 - File cache for auth token
 - Supports new Apple Token Based Authentication (JWT)
 - Supports new iOS 10 features such as Collapse IDs, Subtitles and Mutable Notifications
@@ -23,7 +23,7 @@ APNS/2 is a go package designed for simple, flexible and fast Apple Push Notific
 - Install apns2:
 
 ```sh
-go get -u github.com/sideshow/apns2
+go get -u github.com/sorokinmax/apns2
 ```
 
 If you are running the test suite you will also need to install testify:
