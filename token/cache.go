@@ -3,6 +3,7 @@ package token
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -22,7 +23,7 @@ func (token *Token) UpdateCacheFile() error {
 	fileToken.TeamID = token.TeamID
 	fileToken.Bearer = token.Bearer
 
-	tokenPath := token.CacheFile
+	tokenPath := fmt.Sprintf("%s/%s.token", token.CacheDir, token.KeyID)
 	file, err := os.Create(tokenPath)
 	if err != nil {
 		return err
@@ -34,7 +35,7 @@ func (token *Token) UpdateCacheFile() error {
 }
 
 func (token *Token) ReadCacheFile() error {
-	tokenPath := token.CacheFile
+	tokenPath := fmt.Sprintf("%s/%s.token", token.CacheDir, token.KeyID)
 	data, err := os.ReadFile(tokenPath)
 	if err != nil {
 		return err

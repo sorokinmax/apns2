@@ -5,6 +5,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
+	"fmt"
 	"os"
 	"sync"
 	"time"
@@ -36,7 +37,7 @@ type Token struct {
 	TeamID        string
 	IssuedAt      int64
 	Bearer        string
-	CacheFile     string
+	CacheDir      string
 }
 
 // AuthKeyFromFile loads a .p8 certificate from a local file and returns a
@@ -71,8 +72,9 @@ func AuthKeyFromBytes(bytes []byte) (*ecdsa.PrivateKey, error) {
 func (t *Token) GenerateIfExpired() (bearer string) {
 	t.Lock()
 	defer t.Unlock()
-	if len(t.CacheFile) != 0 {
-		if _, err := os.Stat(t.CacheFile); err == nil {
+	if len(t.CacheDir) != 0 {
+		tokenPath := fmt.Sprintf("%s/%s.token", t.CacheDir, t.KeyID)
+		if _, err := os.Stat(tokenPath); err == nil {
 			t.ReadCacheFile()
 		}
 	}
