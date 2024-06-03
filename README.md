@@ -2,7 +2,7 @@
 
 APNS/2 is a go package designed for simple, flexible and fast Apple Push Notifications on iOS, OSX and Safari using the new HTTP/2 Push provider API.
 
-[![Build Status](https://github.com/sorokinmax/apns2/actions/workflows/tests.yml/badge.svg)](https://github.com/sorokinmax/apns2/actions/workflows/tests.yml) [![Coverage Status](https://coveralls.io/repos/sorokinmax/apns2/badge.svg?branch=master&service=github)](https://coveralls.io/github/sorokinmax/apns2?branch=master) [![GoDoc](https://godoc.org/github.com/sorokinmax/apns2?status.svg)](https://godoc.org/github.com/sorokinmax/apns2)
+[![GoDoc](https://godoc.org/github.com/sorokinmax/apns2?status.svg)](https://godoc.org/github.com/sorokinmax/apns2)
 
 ## Features
 
@@ -41,8 +41,8 @@ import (
   "log"
   "fmt"
 
-  "github.com/sideshow/apns2"
-  "github.com/sideshow/apns2/certificate"
+  "github.com/sorokinmax/apns2"
+  "github.com/sorokinmax/apns2/certificate"
 )
 
 func main() {
@@ -107,7 +107,7 @@ At a minimum, a _Notification_ needs a _DeviceToken_, a _Topic_ and a _Payload_.
 ```go
 notification := &apns2.Notification{
   DeviceToken: "11aa01229f15f0f0c52029d8cf8cd0aeaf2365fe4cebc4af26cd6d76b7919ef7",
-  Topic: "com.sideshow.Apns2",
+  Topic: "com.sorokinmax.Apns2",
   Payload: []byte(`{"aps":{"alert":"Hello!"}}`),
 }
 ```
@@ -133,7 +133,7 @@ notification.Payload = payload
 client.Push(notification)
 ```
 
-Refer to the [payload](https://godoc.org/github.com/sideshow/apns2/payload) docs for more info.
+Refer to the [payload](https://godoc.org/github.com/sorokinmax/apns2/payload) docs for more info.
 
 ## Response, Error handling
 
